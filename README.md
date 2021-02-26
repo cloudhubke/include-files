@@ -1,4 +1,4 @@
-# include-all
+# include-files
 
 An easy way to include all node.js modules within a directory.
 
@@ -9,13 +9,13 @@ An easy way to include all node.js modules within a directory.
 ## Installation
 
 ```
-npm install include-all --save
+npm install include-files --save
 ```
 
 
 ## Low-level synchronous usage
 
-By default, `include-all` is synchronous, and a bit low-level.  There are also asynchronous helper methods (which are a bit higher-level), but more on that in a sec.
+By default, `include-files` is synchronous, and a bit low-level.  There are also asynchronous helper methods (which are a bit higher-level), but more on that in a sec.
 
 First, here are some examples of the low-level, synchronous usage:
 
@@ -24,9 +24,9 @@ First, here are some examples of the low-level, synchronous usage:
 
 ```js
 var path = require('path');
-var includeAll = require('include-all');
+var includeAll = require('include-files');
 
-var controllers = require('include-all')({
+var controllers = require('include-files')({
   dirname     :  path.join(__dirname, 'controllers'),
   filter      :  /(.+Controller)\.js$/,
   excludeDirs :  /^\.(git|svn)$/
@@ -59,7 +59,7 @@ For example:
 Normally, if an error is encountered when requiring/reading/listing files or directories, it is thrown.  To swallow that error silently, set `optional: true`:
 
 ```javascript
-var models = require('include-all')({
+var models = require('include-files')({
   dirname     :  path.join(__dirname, 'models'),
   filter      :  /(.+)\.js$/,
   excludeDirs :  /^\.(git|svn)$/,
@@ -91,12 +91,12 @@ For example:
 
 > The logic from [sails-build-dictionary](https://github.com/sailsjs/sails-build-dictionary) was migrated here.
 
-When you run `require('include-all')`, you get a function.  Calling that function uses include-all with default settings (and any of the options from the table below may be passed in.)
+When you run `require('include-files')`, you get a function.  Calling that function uses include-files with default settings (and any of the options from the table below may be passed in.)
 
 But there are also a handful of convenience methods exposed as properties of that function.  For example:
 
 ```javascript
-var includeAll = require('include-all');
+var includeAll = require('include-files');
 
 // Could just call `includeAll()` for synchronous usage.
 //
@@ -109,7 +109,7 @@ var includeAll = require('include-all');
 
 #### Available convenience methods
 
-`include-all` exposes 3 different methods for asynchronous usage.
+`include-files` exposes 3 different methods for asynchronous usage.
 
 The following convenience methods take all the same options as the default `includeAll` function, but they also support a few _additional_ options.  Also, since they're asynchronous, they work a bit differently:  they use the conventional Node.js "options,cb" function signature.
 
@@ -124,7 +124,7 @@ Build a dictionary of named modules.
 
 ```javascript
 var path = require('path');
-var includeAll = require('include-all');
+var includeAll = require('include-files');
 
 includeAll.optional({
   dirname: path.resolve('api/controllers'),
@@ -191,7 +191,7 @@ Build a single module dictionary by extending {} with the contents of each modul
 For example:
 
 ```javascript
-require('include-all').aggregate({
+require('include-files').aggregate({
   dirname: '/code/brushfire-ch10-end/config/',
   filter: /(.+)\.js$/,
   depth: 1
@@ -287,14 +287,14 @@ require('include-all').aggregate({
 | dirname     | The absolute path of a directory to load modules from.
 | force       | When set, any past require cache entry will be cleared before re-requiring a module.
 | optional    | if enabled, continue silently and return {} when source directory does not exist or cannot be read.  Normally, this throws an error in that scenario.  default: false
-| ignoreRequireFailures    | if enabled, continue silently if a `require()` call throws.  _This should be used with care!  It completely swallows the require error!_  default: false.  This is useful for tolerating malformed node_modules (see https://github.com/balderdashy/include-all/pull/14)
+| ignoreRequireFailures    | if enabled, continue silently if a `require()` call throws.  _This should be used with care!  It completely swallows the require error!_  default: false.  This is useful for tolerating malformed node_modules (see https://github.com/balderdashy/include-files/pull/14)
 | excludeDirs | A regular expression used to EXCLUDE directories by name.
 | depth       | the maximum level of recursion where modules will be included. Defaults to infinity.
 | filter      | only include modules whose FILENAME matches this regex. default `undefined`
 | pathFilter  | only include modules whose FULL RELATIVE PATH matches this regex (relative from the entry point directory). default `undefined`
 | dontLoad    | if `dontLoad` is set to true, don't run the module w/ V8 or load it into memory-- instead, return a tree representing the directory structure (all extant file leaves are included as keys, with their value = `true`)
 | flatten     | if enabled, ALL modules appear as top-level keys in the dictionary-- even those from within nested directories.
-| keepDirectoryPath | Only relevant if `flatten` is `true`.  If enabled, this option causes include-all to include the relative paths in the key names (for nested modules from subdirectories path in the key names).
+| keepDirectoryPath | Only relevant if `flatten` is `true`.  If enabled, this option causes include-files to include the relative paths in the key names (for nested modules from subdirectories path in the key names).
 
 
 ## High-Level Options
@@ -307,7 +307,7 @@ _The following options are only usable in the higher-level asynchronous methods 
 | useGlobalIdForKeyName |  if `useGlobalIdForKeyName` is set to true, don't lowercase the identity to get the keyname-- just use the globalId.
 | replaceExpr | in identity: use this regex to remove substrings like 'Controller' or 'Service' and replace them with the value of `replaceVal`
 | replaceVal  | see above. default value: '' |
-| aggregate   | if enabled, include-all will build the result dictionary by merging all of the target modules together.  Note: Each module must export a dictionary in order for this to work (e.g. for building a configuration dictionary from a set of config files).
+| aggregate   | if enabled, include-files will build the result dictionary by merging all of the target modules together.  Note: Each module must export a dictionary in order for this to work (e.g. for building a configuration dictionary from a set of config files).
 
 
 
@@ -316,7 +316,7 @@ _The following options are only usable in the higher-level asynchronous methods 
 Back in 2012, this was originally forked from felixge's awesome module, `require-all` (https://github.com/felixge/node-require-all).
 
 It adds a few extra capabilities on top:
-- the ability to `include-all` a directory as **optional**.
+- the ability to `include-files` a directory as **optional**.
 - the ability to recursively stat a directory, instead of actually requiring the modules (via the `dontLoad` option)
 - the ability to filter by path, not just filename (pathFilter)
 
@@ -328,7 +328,7 @@ Since then, it has evolved quite a bit, but the base implementation is still the
 First, please read through the documentation above.  If you have further questions or are having trouble, click [here](http://sailsjs.com/support).
 
 
-## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/include-all.svg)](http://npmjs.com/package/include-all)
+## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/include-files.svg)](http://npmjs.com/package/include-files)
 
 To report a bug, [click here](http://sailsjs.com/bugs).
 
@@ -337,7 +337,7 @@ To report a bug, [click here](http://sailsjs.com/bugs).
 
 Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/documentation/contributing) when opening issues or submitting pull requests.
 
-[![NPM](https://nodei.co/npm/include-all.png?downloads=true)](http://npmjs.com/package/include-all)
+[![NPM](https://nodei.co/npm/include-files.png?downloads=true)](http://npmjs.com/package/include-files)
 
 
 ## License
