@@ -1,5 +1,5 @@
 {
-  "name": "include-all",
+  "name": "include-files",
   "version": "4.0.3",
   "description": "An easy way to include all node.js modules within a directory.",
   "main": "index.js",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mikermcneil/include-all.git"
+    "url": "git://github.com/cloudhubke/include-files.git"
   },
   "keywords": [
-    "include-all",
+    "include-files",
     "include",
     "require-all",
     "require",
