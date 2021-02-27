@@ -2,9 +2,9 @@
  * Module dependencies
  */
 
-var helpBuildDictionary = require('./lib/help-build-dictionary');
-var helpIncludeAllSync = require('./lib/help-include-all-sync');
-
+var helpBuildDictionary = require("./lib/help-build-dictionary");
+var helpGetDictionary = require("./lib/help-get-dictionary");
+var helpIncludeAllSync = require("./lib/help-include-all-sync");
 
 /**
  * includeAll
@@ -13,7 +13,6 @@ var helpIncludeAllSync = require('./lib/help-include-all-sync');
  *
  * > Used by the module loader in Sails core.
  */
-
 
 /**
  * Build a dictionary of named modules
@@ -27,13 +26,11 @@ module.exports = function includeAllSync(options) {
   return helpIncludeAllSync(options);
 };
 
-
 //////////////////////////////////////////////////////////////////////////////
 // The four methods below are all originally from sails-build-dictionary.
 // They are asynchronous, and besides defaulting certain options, they do a
 // handful of extra things.  So it's more than just options getting defaulted!
 //////////////////////////////////////////////////////////////////////////////
-
 
 /**
  * Build a dictionary of named modules
@@ -47,11 +44,9 @@ module.exports = function includeAllSync(options) {
  * @param {Function} cb
  */
 
-module.exports.required = function(options, cb) {
+module.exports.required = function (options, cb) {
   return helpBuildDictionary(options, cb);
 };
-
-
 
 /**
  * Build a dictionary of named modules
@@ -62,12 +57,10 @@ module.exports.required = function(options, cb) {
  * @param {Function} cb
  */
 
-module.exports.optional = function(options, cb) {
+module.exports.optional = function (options, cb) {
   options.optional = true;
-  return helpBuildDictionary(options, cb);
+  return helpGetDictionary(options, cb);
 };
-
-
 
 /**
  * Build a dictionary indicating whether the matched modules exist
@@ -78,13 +71,11 @@ module.exports.optional = function(options, cb) {
  * @param {Function} cb
  */
 
-module.exports.exists = function(options, cb) {
+module.exports.exists = function (options, cb) {
   options.optional = true;
   options.dontLoad = true;
   return helpBuildDictionary(options, cb);
 };
-
-
 
 /**
  * Build a single module dictionary by extending {} with the contents of each module
@@ -95,21 +86,17 @@ module.exports.exists = function(options, cb) {
  * @param {Function} cb
  */
 
-module.exports.aggregate = function(options, cb) {
+module.exports.aggregate = function (options, cb) {
   options.aggregate = true;
   options.optional = true;
   return helpBuildDictionary(options, cb);
 };
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Finally, this last method is sort of like a recursive `ls`.
 // Similarly, it's more or less just a synchronous version of `.exists()`,
 // but with a few more specific hard-coded overrides.
 //////////////////////////////////////////////////////////////////////////////
-
 
 /**
  * Build a flat dictionary of the matched modules, where the keys are the
@@ -120,8 +107,7 @@ module.exports.aggregate = function(options, cb) {
  * @returns {Dictionary}
  */
 
-module.exports.scanSync = function(options) {
-
+module.exports.scanSync = function (options) {
   // Higher level overrides.
   options.flatten = true;
   options.keepDirectoryPath = true;
@@ -151,4 +137,3 @@ module.exports.scanSync = function(options) {
   // Now call the low-lvl helper.
   return helpIncludeAllSync(options);
 };
-
