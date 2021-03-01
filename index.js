@@ -57,9 +57,14 @@ module.exports.required = function (options, cb) {
  * @param {Function} cb
  */
 
-module.exports.optional = function (options, cb) {
+module.exports.getDictionary = function (options, cb) {
   options.optional = true;
   return helpGetDictionary(options, cb);
+};
+
+module.exports.optional = function (options, cb) {
+  options.optional = true;
+  return helpBuildDictionary(options, cb);
 };
 
 /**
